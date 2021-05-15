@@ -80,12 +80,6 @@ function connectToNewUser(userId, stream) {
 }
 
 function addVideoStream(video, stream) {
-
-  video.onclick=()=>{
-    video.style.width="100vw";
-    video.style.height="100vh";
-  }
-
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
