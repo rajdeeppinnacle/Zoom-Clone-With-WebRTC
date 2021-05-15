@@ -7,12 +7,13 @@ const { v4: uuidV4 } = require('uuid')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-  res.redirect(`/${uuidV4()}`)
+app.get('/:role', (req, res) => {
+  const role = req.params.role
+  res.redirect(`/${role}/${uuidV4()}`)
 })
 
-app.get('/:room', (req, res) => {
-  res.render('room', { roomId: req.params.room })
+app.get('/:role/:room', (req, res) => {
+  res.render('room', { roomId: req.params.room, role: req.params.role })
 })
 
 io.on('connection', socket => {
