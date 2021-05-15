@@ -2,10 +2,6 @@ const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
-myVideo.onclick=()=>{
-  myVideo.style.width="100vw";
-  myVideo.style.height="100vh";
-}
 myVideo.muted = true
 const peers = {}
 
@@ -84,6 +80,12 @@ function connectToNewUser(userId, stream) {
 }
 
 function addVideoStream(video, stream) {
+
+  video.onclick=()=>{
+    video.style.width="100vw";
+    video.style.height="100vh";
+  }
+
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
