@@ -4,10 +4,21 @@ const myPeer = new Peer()
 const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
+
+console.info(navigator.mediaDevices.getSupportedConstraints())
+
 navigator.mediaDevices.getUserMedia({
-  video: true,
-  audio: true
+  video: {
+    width: { min: 640, ideal: 640 },
+    height: { min: 400, ideal: 480 },
+    aspectRatio: { ideal: 1.7777777778 },
+  },
+  audio: {
+    sampleSize: 16,
+    channelCount: 2, 
+  }
 }).then(stream => {
+
   addVideoStream(myVideo, stream)
 
   myPeer.on('call', call => {
@@ -34,9 +45,11 @@ myPeer.on('open', id => {
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)
   const video = document.createElement('video')
+
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
   })
+
   call.on('close', () => {
     video.remove()
   })
