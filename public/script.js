@@ -2,6 +2,10 @@ const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
+myVideo.onclick=()=>{
+  myVideo.style.width="100vw";
+  myVideo.style.height="100vh";
+}
 myVideo.muted = true
 const peers = {}
 
