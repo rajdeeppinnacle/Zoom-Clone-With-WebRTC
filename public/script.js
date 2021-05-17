@@ -25,8 +25,7 @@ const peers = {}
       })
 
       socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream,"screen")
-        //connectToNewUser(userId, stream,"camera")
+        connectToNewUser(userId, stream)
       })
     })
   }
@@ -36,6 +35,7 @@ const peers = {}
       addVideoStream(screen, myVideo, stream)
 
       myPeer.on('call', call => {
+        console.log(call)
         call.answer(stream)
         const video = document.createElement('video')
         call.on('stream', userVideoStream => {
@@ -57,12 +57,12 @@ myPeer.on('open', id => {
   socket.emit('join-room', ROOM_ID, id)
 })
 
-function connectToNewUser(userId, stream,type) {
-  const call = myPeer.call(userId, stream,type)
+function connectToNewUser(userId, stream) {
+  const call = myPeer.call(userId, stream)
   const video = document.createElement('video')
 
-  call.on('stream', (userVideoStream,type) => {
-    alert(type)
+  call.on('stream', userVideoStream => {
+  
     if (ROLE == "student") {
 
       addVideoStream(screen, video, userVideoStream)
