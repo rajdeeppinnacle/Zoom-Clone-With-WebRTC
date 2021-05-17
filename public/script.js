@@ -10,7 +10,7 @@ const peers = {}
 
 async function start() {
 
-  if (ROLE == "student") {
+  if (ROLE == "student" || true) {
     navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true
