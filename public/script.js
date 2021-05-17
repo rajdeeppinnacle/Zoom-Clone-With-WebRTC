@@ -58,10 +58,7 @@ myPeer.on('open', id => {
   if(ROLE=="admin"){
     id = "admin"
   }
-  else{
-    id = "S1001"
-  }
-
+  
   socket.emit('join-room', ROOM_ID, id)
 })
 
