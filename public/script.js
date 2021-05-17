@@ -59,7 +59,7 @@ myPeer.on('open', id => {
     id = "admin"
   }
   else{
-    id = "1001"
+    id = "S1001"
   }
 
   socket.emit('join-room', ROOM_ID, id)
