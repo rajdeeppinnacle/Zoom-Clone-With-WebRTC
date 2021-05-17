@@ -10,12 +10,12 @@ const peers = {}
 
 async function start() {
 
-  if (ROLE == "student" || true) {
+  if (ROLE == "student") {
     navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true
     }).then(stream => {
-      //addVideoStream(myVideo, stream)
+      addVideoStream(myVideo, stream)
 
       myPeer.on('call', call => {
 
