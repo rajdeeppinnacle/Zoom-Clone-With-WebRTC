@@ -37,6 +37,8 @@ if (ROLE == "student") {
 
       call.answer(stream)
       const video = document.createElement('video')
+      video.muted = false
+      video.controls = true
       call.on('stream', userVideoStream => {
         addVideoStream(videos,video, userVideoStream)
       })
