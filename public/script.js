@@ -54,11 +54,6 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
-  
-  if(ROLE=="admin"){
-    id = "admin"
-  }
-  
   socket.emit('join-room', ROOM_ID, id)
 })
 
