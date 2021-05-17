@@ -28,26 +28,26 @@ if (ROLE == "student" || true) {
       connectToNewUser(userId, stream)
     })
   })
-} else {
-  return
-  navigator.mediaDevices.getDisplayMedia().then(stream => {
+} 
+// else {
+//   navigator.mediaDevices.getDisplayMedia().then(stream => {
 
-    addVideoStream(screen,myVideo, stream)
+//     addVideoStream(screen,myVideo, stream)
 
-    myPeer.on('call', call => {
+//     myPeer.on('call', call => {
 
-      call.answer(stream)
-      const video = document.createElement('video')
-      call.on('stream', userVideoStream => {
-        addVideoStream(videos,video, userVideoStream)
-      })
-    })
+//       call.answer(stream)
+//       const video = document.createElement('video')
+//       call.on('stream', userVideoStream => {
+//         addVideoStream(videos,video, userVideoStream)
+//       })
+//     })
 
-    socket.on('user-connected', userId => {
-      connectToNewUser(userId, stream)
-    })
-  })
-}
+//     socket.on('user-connected', userId => {
+//       connectToNewUser(userId, stream)
+//     })
+//   })
+// }
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
