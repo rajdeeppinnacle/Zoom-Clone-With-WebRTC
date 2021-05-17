@@ -1,5 +1,6 @@
 const socket = io('/')
-const videoGrid = document.getElementById('screen')
+const screen = document.getElementById('screen')
+const videos = document.getElementById('videos')
 const myPeer = new Peer()
 const myVideo = document.createElement('video')
 myVideo.muted = true
@@ -19,7 +20,7 @@ if (ROLE == "student") {
       call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+        addVideoStream(screen,video, userVideoStream)
       })
     })
 
@@ -30,14 +31,14 @@ if (ROLE == "student") {
 } else {
   navigator.mediaDevices.getDisplayMedia().then(stream => {
 
-    addVideoStream(myVideo, stream)
+    addVideoStream(screen,myVideo, stream)
 
     myPeer.on('call', call => {
 
       call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+        addVideoStream(videos,video, userVideoStream)
       })
     })
 
@@ -60,7 +61,14 @@ function connectToNewUser(userId, stream) {
   const video = document.createElement('video')
 
   call.on('stream', userVideoStream => {
-    addVideoStream(video, userVideoStream)
+
+    if(ROLE == "student"){
+      addVideoStream(screen,video, userVideoStream)
+    }
+    else{
+      addVideoStream(videos,video, userVideoStream)
+    }
+
   })
 
   call.on('close', () => {
@@ -70,10 +78,13 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call
 }
 
-function addVideoStream(video, stream) {
+function addVideoStream(wrapper,video, stream) {
+  
   video.srcObject = stream
+  
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  videoGrid.append(video)
+
+  wrapper.append(video)
 }
