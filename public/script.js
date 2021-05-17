@@ -8,7 +8,7 @@ const peers = {}
 
 //console.info(navigator.mediaDevices.getSupportedConstraints())
 
-if (ROLE == "student") {
+if (ROLE == "student" || true) {
   navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
@@ -29,6 +29,7 @@ if (ROLE == "student") {
     })
   })
 } else {
+  return
   navigator.mediaDevices.getDisplayMedia().then(stream => {
 
     addVideoStream(screen,myVideo, stream)
@@ -37,8 +38,6 @@ if (ROLE == "student") {
 
       call.answer(stream)
       const video = document.createElement('video')
-      video.muted = false
-      video.controls = true
       call.on('stream', userVideoStream => {
         addVideoStream(videos,video, userVideoStream)
       })
