@@ -30,7 +30,7 @@ const peers = {}
     })
   }
   else {
-    navigator.mediaDevices.getDisplayMedia({audio:true}).then(stream => {
+    navigator.mediaDevices.getDisplayMedia().then(stream => {
 
       addVideoStream(screen, myVideo, stream)
 
