@@ -12,14 +12,14 @@ if (ROLE == "student") {
     video: true,
     audio: true
   }).then(stream => {
-    addVideoStream(myVideo, stream)
+    //addVideoStream(myVideo, stream)
 
     myPeer.on('call', call => {
 
       call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream[0])
+        addVideoStream(video, userVideoStream)
       })
     })
 
@@ -34,7 +34,7 @@ if (ROLE == "student") {
 
     myPeer.on('call', call => {
 
-      call.answer([stream])
+      call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream)
