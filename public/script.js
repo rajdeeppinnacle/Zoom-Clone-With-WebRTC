@@ -8,8 +8,6 @@ const peers = {}
 
 //console.info(navigator.mediaDevices.getSupportedConstraints())
 
-async function start() {
-
   if (ROLE == "student") {
     navigator.mediaDevices.getUserMedia({
       video: true,
@@ -32,8 +30,6 @@ async function start() {
     })
   }
   else {
-    const myStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-
     navigator.mediaDevices.getDisplayMedia().then(stream => {
 
       addVideoStream(screen, myVideo, stream)
@@ -52,8 +48,6 @@ async function start() {
       })
     })
   }
-
-}
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
