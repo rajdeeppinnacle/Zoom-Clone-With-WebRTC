@@ -30,12 +30,13 @@ const peers = {}
     })
   }
   else {
-    navigator.mediaDevices.getDisplayMedia({audio:true,video:{cursor:"always"}}).then(stream => {
+    navigator.mediaDevices.getDisplayMedia().then(stream => {
 
       addVideoStream(screen, myVideo, stream)
 
       myPeer.on('call', call => {
 
+        call.answer(stream)
         call.answer(stream)
         const video = document.createElement('video')
         call.on('stream', userVideoStream => {
