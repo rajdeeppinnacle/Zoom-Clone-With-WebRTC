@@ -55,7 +55,7 @@ socket.on('user-disconnected', userId => {
 
 myPeer.on('open', id => {
   
-  if(role=="admin"){
+  if(ROLE=="admin"){
     id = "admin"
   }
 
