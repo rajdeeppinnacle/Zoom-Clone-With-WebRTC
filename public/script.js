@@ -13,7 +13,7 @@ const peers = {}
       video: true,
       audio: true
     }).then(stream => {
-      addVideoStream(myVideo, stream)
+      addVideoStream(videos,myVideo, stream)
 
       myPeer.on('call', call => {
 
@@ -26,7 +26,6 @@ const peers = {}
       })
 
       socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream)
         connectToNewUser(userId, stream)
       })
     })
