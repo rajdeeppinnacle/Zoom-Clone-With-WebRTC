@@ -9,17 +9,9 @@ const peers = {}
 
 if (ROLE == "student") {
   navigator.mediaDevices.getUserMedia({
-    video: {
-      width: { min: 640, ideal: 640 },
-      height: { min: 400, ideal: 480 },
-      aspectRatio: { ideal: 1.7777777778 },
-    },
-    audio: {
-      sampleSize: 16,
-      channelCount: 2,
-    }
+    video: true,
+    audio: true
   }).then(stream => {
-
     addVideoStream(myVideo, stream)
 
     myPeer.on('call', call => {
@@ -27,7 +19,7 @@ if (ROLE == "student") {
       call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+        addVideoStream(video, userVideoStream[0])
       })
     })
 
@@ -35,21 +27,20 @@ if (ROLE == "student") {
       connectToNewUser(userId, stream)
     })
   })
-}
-else{
+} else {
   navigator.mediaDevices.getDisplayMedia().then(stream => {
-  
+
     addVideoStream(myVideo, stream)
-  
+
     myPeer.on('call', call => {
-      
-      call.answer(stream)
+
+      call.answer([stream])
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream)
       })
     })
-  
+
     socket.on('user-connected', userId => {
       connectToNewUser(userId, stream)
     })
