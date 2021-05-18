@@ -28,8 +28,6 @@ if (ROLE == "student") {
     myPeer.on('call', call => {
 
       call.answer(stream)
-      
-      alert(JSON.stringify(call))
       console.log(call)
 
       const video = document.createElement('video')
