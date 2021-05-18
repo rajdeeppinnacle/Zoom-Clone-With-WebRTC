@@ -57,7 +57,7 @@ myPeer.on('open', id => {
   let userId = id
 
   if(ROLE == "admin"){
-      userId = 'AD1001'
+      userId = 'AD1001N'
   }
 
   socket.emit('join-room', ROOM_ID, userId)
