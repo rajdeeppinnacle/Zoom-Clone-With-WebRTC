@@ -20,7 +20,13 @@ const peers = {}
 
 if (ROLE == "student") {
 
-  var constraints = { video: { frameRate: { ideal: 20, max: 30 } } };
+  var constraints = {
+    video: {
+      frameRate: { ideal: 20, max: 30 },
+      width: { min: 360, ideal: 360, max: 360 },
+      height: { min: 640, ideal: 640, max: 640 }
+    }
+  };
 
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     addVideoStream(videos, myVideo, stream)
@@ -32,10 +38,10 @@ if (ROLE == "student") {
       const video = document.createElement('video')
 
       call.on('stream', userVideoStream => {
-        if(call.peer == "ad1001n"){
+        if (call.peer == "ad1001n") {
           addVideoStream(screen, video, userVideoStream)
-        } else{
-          addVideoStream(videos,video,userVideoStream)
+        } else {
+          addVideoStream(videos, video, userVideoStream)
         }
       })
 
@@ -47,7 +53,7 @@ if (ROLE == "student") {
   })
 }
 else {
-  navigator.mediaDevices.getDisplayMedia({video:{cursor:"always"},audio: true }).then(stream => {
+  navigator.mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: true }).then(stream => {
 
     addVideoStream(screen, myVideo, stream)
 
