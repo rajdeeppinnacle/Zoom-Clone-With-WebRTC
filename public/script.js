@@ -47,7 +47,7 @@ if (ROLE == "student") {
   })
 }
 else {
-  navigator.mediaDevices.getDisplayMedia({audio: true }).then(stream => {
+  navigator.mediaDevices.getDisplayMedia({video:{cursor:"always"},audio: true }).then(stream => {
 
     addVideoStream(screen, myVideo, stream)
 
