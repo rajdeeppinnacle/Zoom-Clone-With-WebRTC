@@ -54,7 +54,13 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
-  socket.emit('join-room', ROOM_ID, id)
+  let userId = id
+
+  if(ROLE == "admin"){
+      userId = 'AD1001'
+  }
+
+  socket.emit('join-room', ROOM_ID, userId)
 })
 
 function connectToNewUser(userId, stream) {
