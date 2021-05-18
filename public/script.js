@@ -2,12 +2,13 @@ const socket = io('/')
 const screen = document.getElementById('screen')
 const videos = document.getElementById('videos')
 let userId = null;
-if(ROLE == "admin"){
+
+if (ROLE == "admin") {
   userId = "ad1001n"
-}
-else{
+} else {
   userId = "something2001"
 }
+
 const myPeer = new Peer(userId)
 const myVideo = document.createElement('video')
 myVideo.muted = true
@@ -15,46 +16,46 @@ const peers = {}
 
 //console.info(navigator.mediaDevices.getSupportedConstraints())
 
-  if (ROLE == "student") {
-    navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
-    }).then(stream => {
-      addVideoStream(videos,myVideo, stream)
+if (ROLE == "student") {
+  navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  }).then(stream => {
+    addVideoStream(videos, myVideo, stream)
 
-      myPeer.on('call', call => {
+    myPeer.on('call', call => {
 
-        call.answer(stream)
+      call.answer(stream)
 
-        const video = document.createElement('video')
-        call.on('stream', userVideoStream => {
-          addVideoStream(screen, video, userVideoStream)
-        })
-      })
-
-      socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream)
+      const video = document.createElement('video')
+      call.on('stream', userVideoStream => {
+        addVideoStream(screen, video, userVideoStream)
       })
     })
-  }
-  else {
-    navigator.mediaDevices.getUserMedia({video:true,audio:true}).then(stream => {
 
-      addVideoStream(screen, myVideo, stream)
+    socket.on('user-connected', userId => {
+      connectToNewUser(userId, stream)
+    })
+  })
+}
+else {
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
 
-      myPeer.on('call', call => {
-        call.answer(stream)
-        const video = document.createElement('video')
-        call.on('stream', userVideoStream => {
-          addVideoStream(videos, video, userVideoStream)
-        })
-      })
+    addVideoStream(screen, myVideo, stream)
 
-      socket.on('user-connected', userId => {
-        connectToNewUser(userId, stream)
+    myPeer.on('call', call => {
+      call.answer(stream)
+      const video = document.createElement('video')
+      call.on('stream', userVideoStream => {
+        addVideoStream(videos, video, userVideoStream)
       })
     })
-  }
+
+    socket.on('user-connected', userId => {
+      connectToNewUser(userId, stream)
+    })
+  })
+}
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
@@ -65,15 +66,18 @@ myPeer.on('open', id => {
 })
 
 function connectToNewUser(userId, stream) {
-  const call = myPeer.call(userId, stream,{metadata:{info:10001}})
+  const call = myPeer.call(userId, stream, { metadata: { info: 10001 } })
   const video = document.createElement('video')
 
   call.on('stream', userVideoStream => {
-    
+
     if (ROLE == "student") {
-      addVideoStream(screen, video, userVideoStream)
-    }
-    else {
+      if (userId == "ad1001n") {
+        addVideoStream(screen, video, userVideoStream)
+      } else {
+        addVideoStream(videos, video, userVideoStream)
+      }
+    } else {
       addVideoStream(videos, video, userVideoStream)
     }
 
