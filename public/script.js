@@ -3,13 +3,16 @@ const screen = document.getElementById('screen')
 const videos = document.getElementById('videos')
 let userId = null;
 
+let myPeer = null
+
 if (ROLE == "admin") {
-  userId = "ad1001n"
-} else {
-  userId = "something2001"
+  myPeer = new Peer("ad1001n")
 }
 
-const myPeer = new Peer(userId)
+else {
+  myPeer = new Peer()
+}
+
 const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
