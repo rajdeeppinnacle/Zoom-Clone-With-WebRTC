@@ -22,9 +22,9 @@ if (ROLE == "student") {
 
   var constraints = {
     video: {
-      frameRate: { ideal: 20, max: 30 },
-      width: { min: 360, ideal: 360, max: 360 },
-      height: { min: 640, ideal: 640, max: 640 }
+      frameRate: { ideal: 10, max: 20 },
+      width: { min: 240, ideal: 240, max: 240 },
+      height: { min: 480, ideal: 480, max: 480 }
     }
   };
 
