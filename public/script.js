@@ -54,21 +54,17 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
-  let userId = id
-
-  if(ROLE == "admin"){
-      userId = 'ad1001n'
-  }
-
-  socket.emit('join-room', ROOM_ID, userId)
+  socket.emit('join-room', ROOM_ID, id)
 })
 
 function connectToNewUser(userId, stream) {
-  const call = myPeer.call(userId, stream)
+  const call = myPeer.call(userId, stream,{info:1001})
   const video = document.createElement('video')
 
-  call.on('stream', userVideoStream => {
-  
+  call.on('stream', (userVideoStream,info) => {
+    
+    alert(JSON.stringify(info))
+
     if (ROLE == "student") {
       addVideoStream(screen, video, userVideoStream)
     }
