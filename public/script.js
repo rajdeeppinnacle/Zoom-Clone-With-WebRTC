@@ -8,7 +8,6 @@ let myPeer = null
 if (ROLE == "admin") {
   myPeer = new Peer("ad1001n")
 }
-
 else {
   myPeer = new Peer()
 }
@@ -29,11 +28,16 @@ if (ROLE == "student") {
     myPeer.on('call', call => {
 
       call.answer(stream)
+      
+      alert(JSON.stringify(call))
+      console.log(call)
 
       const video = document.createElement('video')
+
       call.on('stream', userVideoStream => {
         addVideoStream(screen, video, userVideoStream)
       })
+
     })
 
     socket.on('user-connected', userId => {
