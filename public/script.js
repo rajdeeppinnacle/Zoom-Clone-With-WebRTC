@@ -28,12 +28,15 @@ if (ROLE == "student") {
     myPeer.on('call', call => {
 
       call.answer(stream)
-      console.log(call)
 
       const video = document.createElement('video')
 
       call.on('stream', userVideoStream => {
-        addVideoStream(screen, video, userVideoStream)
+        if(call.peer == "ad1001n"){
+          addVideoStream(screen, video, userVideoStream)
+        } else{
+          addVideoStream(videos,video,userVideoStream)
+        }
       })
 
     })
