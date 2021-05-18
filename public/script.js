@@ -20,7 +20,7 @@ const peers = {}
 
 if (ROLE == "student") {
 
-  var constraints = { video: { frameRate: { ideal: 10, max: 15 } } };
+  var constraints = { video: { frameRate: { ideal: 20, max: 30 } } };
 
   navigator.mediaDevices.getUserMedia(constraints).then(stream => {
     addVideoStream(videos, myVideo, stream)
