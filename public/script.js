@@ -1,7 +1,14 @@
 const socket = io('/')
 const screen = document.getElementById('screen')
 const videos = document.getElementById('videos')
-const myPeer = new Peer()
+const userId = null;
+if(ROLE == "admin"){
+  userId = "ad1001n"
+}
+else{
+  userId = "something2001"
+}
+const myPeer = new Peer(userId)
 const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
@@ -58,13 +65,11 @@ myPeer.on('open', id => {
 })
 
 function connectToNewUser(userId, stream) {
-  const call = myPeer.call(userId, stream,{info:1001})
+  const call = myPeer.call(userId, stream,{metadata:{info:10001}})
   const video = document.createElement('video')
 
-  call.on('stream', (userVideoStream,info) => {
+  call.on('stream', userVideoStream => {
     
-    alert(JSON.stringify(info))
-
     if (ROLE == "student") {
       addVideoStream(screen, video, userVideoStream)
     }
