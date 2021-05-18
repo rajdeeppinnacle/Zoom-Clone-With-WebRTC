@@ -1,7 +1,7 @@
 const socket = io('/')
 const screen = document.getElementById('screen')
 const videos = document.getElementById('videos')
-const userId = null;
+let userId = null;
 if(ROLE == "admin"){
   userId = "ad1001n"
 }
