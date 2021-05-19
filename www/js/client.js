@@ -37,6 +37,8 @@ var signalingServerPort = 3000; // must be same of server PORT
 var signalingServer = getServerUrl();
 var roomId = getRoomId();
 var peerInfo = getPeerInfo();
+var role = location.pathname.slice(1,2);
+console.log("Role is :",role)
 var peerGeo;
 var peerConnection;
 var myPeerName;
@@ -408,7 +410,7 @@ function getServerUrl() {
  */
 function getRoomId() {
   // skip /join/
-  let roomId = location.pathname.substring(6);
+  let roomId = location.pathname.substring(8);
   // if not specified room id, create one random
   if (roomId == "") {
     roomId = makeId(12);
