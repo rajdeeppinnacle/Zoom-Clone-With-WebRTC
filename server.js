@@ -78,7 +78,7 @@ app.get("/join/", function (req, res) {
 });
 
 // join to room
-app.get("/join/*", function (req, res) {
+app.get("/:role/join/*", function (req, res) {
   if (Object.keys(req.query).length > 0) {
     console.log("redirect:" + req.url + " to " + url.parse(req.url).pathname);
     res.redirect(url.parse(req.url).pathname);
