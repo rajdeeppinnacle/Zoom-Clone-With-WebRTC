@@ -1106,7 +1106,14 @@ function setupLocalMedia(callback, errorback) {
 
   const constraints = {
     audio: useAudio,
-    video: useVideo,
+    video: {
+      width: { min: 1024, ideal: 1280, max: 1920 },
+      height: { min: 576, ideal: 720, max: 1080 },
+      frameRate:{
+        ideal:10,
+        max:12
+      }
+    }
   };
 
   navigator.mediaDevices
