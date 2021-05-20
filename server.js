@@ -228,6 +228,7 @@ io.sockets.on("connect", (socket) => {
       peer_video: peer_video,
       peer_audio: peer_audio,
       peer_hand: peer_hand,
+      role
     };
     console.log("connected peers grp by roomId", peers);
 
@@ -236,7 +237,6 @@ io.sockets.on("connect", (socket) => {
       channels[channel][id].emit("addPeer", {
         peer_id: socket.id,
         peers: peers[channel],
-        role,
         should_create_offer: false,
         iceServers: iceServers,
       });
@@ -244,7 +244,7 @@ io.sockets.on("connect", (socket) => {
       socket.emit("addPeer", {
         peer_id: id,
         peers: peers[channel],
-        role,
+        role:peers[channel][id].role,
         should_create_offer: true,
         iceServers: iceServers,
       });
