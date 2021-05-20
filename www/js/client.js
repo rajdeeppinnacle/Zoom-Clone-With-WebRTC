@@ -38,7 +38,6 @@ var signalingServer = getServerUrl();
 var roomId = getRoomId();
 var peerInfo = getPeerInfo();
 var role = location.pathname.slice(1,2);
-console.log("Role is :",role)
 var peerGeo;
 var peerConnection;
 var myPeerName;
@@ -546,6 +545,7 @@ function initPeer() {
       peerVideo: myVideoStatus,
       peerAudio: myAudioStatus,
       peerHand: myHandStatus,
+      role
     });
   }
 
@@ -609,6 +609,7 @@ function initPeer() {
 
     var peer_id = config.peer_id;
     var peers = config.peers;
+    console.log("You are going to connect to Role: "+config.role)
 
     if (peer_id in peerConnections) {
       // This could happen if the user joins multiple channels where the other peer is also in.

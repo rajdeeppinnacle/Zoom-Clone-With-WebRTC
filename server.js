@@ -207,7 +207,7 @@ io.sockets.on("connect", (socket) => {
     var peer_video = config.peerVideo;
     var peer_audio = config.peerAudio;
     var peer_hand = config.peerHand;
-
+    var role = config.role
     if (channel in socket.channels) {
       console.log("[" + socket.id + "] [Warning] already joined", channel);
       return;
@@ -236,6 +236,7 @@ io.sockets.on("connect", (socket) => {
       channels[channel][id].emit("addPeer", {
         peer_id: socket.id,
         peers: peers[channel],
+        role,
         should_create_offer: false,
         iceServers: iceServers,
       });
@@ -243,6 +244,7 @@ io.sockets.on("connect", (socket) => {
       socket.emit("addPeer", {
         peer_id: id,
         peers: peers[channel],
+        role,
         should_create_offer: true,
         iceServers: iceServers,
       });

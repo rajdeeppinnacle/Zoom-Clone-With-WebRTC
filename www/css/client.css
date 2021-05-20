@@ -1004,3 +1004,15 @@ z-index
 13 chat emoji
 14 settings
 */
+
+#mainRow{
+  display: flex;
+}
+
+#mainContent{
+    width:80%;
+}
+
+#sideContent{
+  width: 20%;
+}
