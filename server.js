@@ -245,7 +245,7 @@ io.sockets.on("connect", (socket) => {
       socket.emit("addPeer", {
         peer_id: id,
         peers: peers[channel],
-        role,
+        role:peers[channel][id].role,
         should_create_offer: true,
         iceServers: iceServers,
       });
