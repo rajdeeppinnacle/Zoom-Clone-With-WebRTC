@@ -732,7 +732,8 @@ function initPeer() {
           mainContent.appendChild(videoWrap)
         }
         else {
-          document.body.appendChild(videoWrap);
+          let sideContent = document.getElementById("sideContent")
+          sideContent.appendChild(videoWrap);
         }
         // attachMediaStream is a part of the adapter.js library
         attachMediaStream(remoteMedia, remoteMediaStream);
