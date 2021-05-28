@@ -37,7 +37,7 @@ var signalingServerPort = 3000; // must be same of server PORT
 var signalingServer = getServerUrl();
 var roomId = getRoomId();
 var peerInfo = getPeerInfo();
-var role = location.pathname.slice(1,2);
+var role = location.pathname.slice(1, 2);
 var peerGeo;
 var peerConnection;
 var myPeerName;
@@ -513,7 +513,7 @@ function initPeer() {
         joinToChannel();
       },
     }).then(function () {
-     // welcomeUser();
+      // welcomeUser();
     });
 
     // not need for mobile
@@ -609,7 +609,7 @@ function initPeer() {
 
     var peer_id = config.peer_id;
     var peers = config.peers;
-    console.log("You are going to connect to Role: "+config.role)
+    console.log("You are going to connect to Role: " + config.role)
 
     if (peer_id in peerConnections) {
       // This could happen if the user joins multiple channels where the other peer is also in.
@@ -727,12 +727,12 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        if(config.role == "a"){
+        if (config.role == "a") {
           let mainContent = document.getElementById("mainContent")
           mainContent.appendChild(videoWrap)
         }
-        else{
-        document.body.appendChild(videoWrap);
+        else {
+          document.body.appendChild(videoWrap);
         }
         // attachMediaStream is a part of the adapter.js library
         attachMediaStream(remoteMedia, remoteMediaStream);
@@ -1119,9 +1119,9 @@ function setupLocalMedia(callback, errorback) {
     video: {
       width: { min: 1024, ideal: 1280, max: 1920 },
       height: { min: 576, ideal: 720, max: 1080 },
-      frameRate:{
-        ideal:10,
-        max:12
+      frameRate: {
+        ideal: 10,
+        max: 12
       }
     }
   };
@@ -1210,7 +1210,10 @@ function setupLocalMedia(callback, errorback) {
       localMedia.muted = true;
       localMedia.volume = 0;
       localMedia.controls = false;
-      document.body.appendChild(videoWrap);
+
+      let sideContent = document.getElementById("sideContent")
+      sideContent.appendChild(videoWrap)
+      //document.body.appendChild(videoWrap);
 
       console.log("local-video-audio", {
         video: localMediaStream.getVideoTracks()[0].label,
@@ -1270,11 +1273,11 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName) {
   videoAvatarImageElement.setAttribute(
     "src",
     avatarApiUrl +
-      "?name=" +
-      peerName +
-      "&size=" +
-      avatarImgSize +
-      "&background=random&rounded=true"
+    "?name=" +
+    peerName +
+    "&size=" +
+    avatarImgSize +
+    "&background=random&rounded=true"
   );
 }
 
