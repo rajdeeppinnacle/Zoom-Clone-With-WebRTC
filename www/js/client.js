@@ -806,9 +806,11 @@ function initPeer() {
      */
     localMediaStream.getTracks().forEach(function (track) {
       if(config.role == "a"){
+        console.log("Iam called 'A'")
         peerConnections[peer_id].addTrack(track, localMediaStream);
       }
       else{
+        console.log("I am called 'B'")
         peerConnections[peer_id].addTrack(track, localAudioStream);
       }
     });
