@@ -513,7 +513,7 @@ function initPeer() {
         joinToChannel();
       },
     }).then(function () {
-      welcomeUser();
+     // welcomeUser();
     });
 
     // not need for mobile
