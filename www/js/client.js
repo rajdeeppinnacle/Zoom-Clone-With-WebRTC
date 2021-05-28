@@ -57,6 +57,7 @@ var isVideoOnFullScreen = false;
 var isDocumentOnFullScreen = false;
 var signalingSocket; // socket.io connection to our webserver
 var localMediaStream; // my microphone / webcam
+var localAudioStream;
 var remoteMediaStream; // peers microphone / webcam
 var remoteMediaControls = false; // enable - disable peers video player controls (default false)
 var peerConnections = {}; // keep track of our peer connections, indexed by peer_id == socket.io id
@@ -804,7 +805,12 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
     localMediaStream.getTracks().forEach(function (track) {
-      peerConnections[peer_id].addTrack(track, localMediaStream);
+      if(config.role == "a"){
+        peerConnections[peer_id].addTrack(track, localMediaStream);
+      }
+      else{
+        peerConnections[peer_id].addTrack(track, localAudioStream);
+      }
     });
 
     /**
@@ -1136,6 +1142,8 @@ function setupLocalMedia(callback, errorback) {
       getId("loadingDiv").style.display = "none";
 
       localMediaStream = stream;
+      localAudioStream = stream.clone()
+      localMediaStream.getVideoTracks()[0].enabled = false
 
       const videoWrap = document.createElement("div");
 
