@@ -727,9 +727,13 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        let mainContent = document.getElementById("mainContent")
+        if(role == "a"){
+          let mainContent = document.getElementById("mainContent")
           mainContent.appendChild(videoWrap)
-        //document.body.appendChild(videoWrap);
+        }
+        else{
+        document.body.appendChild(videoWrap);
+        }
         // attachMediaStream is a part of the adapter.js library
         attachMediaStream(remoteMedia, remoteMediaStream);
         resizeVideos();
