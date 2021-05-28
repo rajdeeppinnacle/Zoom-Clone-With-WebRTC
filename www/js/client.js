@@ -1146,7 +1146,7 @@ function setupLocalMedia(callback, errorback) {
       localMediaStream = stream;
       localMediaStream.getVideoTracks()[0].enabled = false
       localAudioStream = stream.clone()
-      //localMediaStream.getVideoTracks()[0].enabled = true
+      localMediaStream.getVideoTracks()[0].enabled = true
       
 
       const videoWrap = document.createElement("div");
