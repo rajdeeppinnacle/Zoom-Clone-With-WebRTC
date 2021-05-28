@@ -707,10 +707,11 @@ video {
 video:fullscreen {
   object-fit: contain;
 }
+
 .video {
-  float: left;
-  width: 25vw;
-  height: 50vh;
+  /* float: left; */
+  /* width: 25vw;
+  height: 50vh; */
   overflow: hidden;
   position: relative;
 }

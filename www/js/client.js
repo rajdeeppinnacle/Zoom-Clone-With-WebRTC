@@ -1253,6 +1253,7 @@ function setupLocalMedia(callback, errorback) {
  * Resize video elements
  */
 function resizeVideos() {
+  return;
   const numToString = ["", "one", "two", "three", "four", "five", "six"];
   const videos = document.querySelectorAll(".video");
   document.querySelectorAll(".video").forEach((v) => {
