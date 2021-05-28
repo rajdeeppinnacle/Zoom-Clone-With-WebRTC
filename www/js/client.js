@@ -727,7 +727,7 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        if(role == "a"){
+        if(config.role == "a"){
           let mainContent = document.getElementById("mainContent")
           mainContent.appendChild(videoWrap)
         }
