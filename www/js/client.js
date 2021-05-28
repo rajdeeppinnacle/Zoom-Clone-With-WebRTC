@@ -1144,8 +1144,10 @@ function setupLocalMedia(callback, errorback) {
       getId("loadingDiv").style.display = "none";
 
       localMediaStream = stream;
+      localMediaStream.getVideoTracks()[0].enabled = false
       localAudioStream = stream.clone()
-      localAudioStream.getVideoTracks()[0].enabled = false
+      localMediaStream.getVideoTracks()[0].enabled = true
+      
 
       const videoWrap = document.createElement("div");
 
