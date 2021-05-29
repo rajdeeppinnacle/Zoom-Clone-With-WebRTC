@@ -811,7 +811,7 @@ function initPeer() {
       });
     } else {
       localAudioStream.getTracks().forEach(function (track) {
-        peerConnections[peer_id].addTrack(track, localAudioStream);
+        peerConnections[peer_id].addTrack(track);
       });
     }
 
