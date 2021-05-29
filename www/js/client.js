@@ -594,7 +594,14 @@ function initPeer() {
   signalingSocket.on("disconnect", function () {
     console.log("Disconnected from signaling server");
     for (var peer_id in peerMediaElements) {
-      document.body.removeChild(peerMediaElements[peer_id].parentNode);
+      //document.body.removeChild(peerMediaElements[peer_id].parentNode);
+      if (sideContent.contains(peerMediaElements[peer_id].parentNode)) {
+        sideContent.removeChild(peerMediaElements[peer_id].parentNode)
+      }
+      if (mainContent.contains(peerMediaElements[peer_id].parentNode)) {
+        mainContent.removeChild(peerMediaElements[peer_id].parentNode)
+      }
+
       resizeVideos();
     }
     for (var peer_id in peerConnections) {
@@ -809,12 +816,12 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addStream
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
-    if ((role == "a" && config.role == "s") || (role == "s" && config.role=="a" ) ) {
+    if ((role == "a" && config.role == "s") || (role == "s" && config.role == "a")) {
       localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
     }
-    else if(role =="s" && config.role == "s" ){
+    else if (role == "s" && config.role == "s") {
       localAudioStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localAudioStream);
       });
@@ -974,12 +981,12 @@ function initPeer() {
     var peer_id = config.peer_id;
 
     if (peer_id in peerMediaElements) {
-      
-      if(sideContent.contains(peerMediaElements[peer_id].parentNode)){
+
+      if (sideContent.contains(peerMediaElements[peer_id].parentNode)) {
         sideContent.removeChild(peerMediaElements[peer_id].parentNode)
       }
 
-      if(mainContent.contains(peerMediaElements[peer_id].parentNode)){
+      if (mainContent.contains(peerMediaElements[peer_id].parentNode)) {
         mainContent.removeChild(peerMediaElements[peer_id].parentNode)
       }
 
@@ -1235,7 +1242,7 @@ function setupLocalMedia(callback, errorback) {
       localMedia.volume = 0;
       localMedia.controls = false;
 
-      
+
       sideContent.appendChild(videoWrap)
       //document.body.appendChild(videoWrap);
 
