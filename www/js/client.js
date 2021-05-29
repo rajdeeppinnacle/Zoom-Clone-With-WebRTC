@@ -667,7 +667,6 @@ function initPeer() {
      */
     let ontrackCount = 0;
     peerConnections[peer_id].ontrack = function (event) {
-      console.log("On Track Called")
       ontrackCount++;
       if (ontrackCount === 2) {
         console.log("ontrack", event);
@@ -743,12 +742,8 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        if (config.role == "a") {
-          mainContent.appendChild(videoWrap)
-        }
-        else {
-          sideContent.appendChild(videoWrap);
-        }
+        sideContent.appendChild(videoWrap);
+
         // attachMediaStream is a part of the adapter.js library
         attachMediaStream(remoteMedia, remoteMediaStream);
         resizeVideos();
@@ -2275,13 +2270,6 @@ function refreshMyStreamToPeers(stream) {
   if (thereIsPeerConnections()) {
     // refresh my video stream
     for (var peer_id in peerConnections) {
-
-    stream.getTracks().forEach((track)=>{
-      peerConnections[peer_id].addTrack(track,stream)
-    })
-
-      continue;
-
       // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/getSenders
       var sender = peerConnections[peer_id]
         .getSenders()
