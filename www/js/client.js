@@ -805,11 +805,11 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
     localMediaStream.getTracks().forEach(function (track) {
-      if(config.role == "a"){
+      if (config.role == "a") {
         console.log("Iam called 'A'")
         peerConnections[peer_id].addTrack(track, localMediaStream);
       }
-      else{
+      else {
         console.log("I am called 'B'")
         peerConnections[peer_id].addTrack(track, localAudioStream);
       }
@@ -1123,6 +1123,13 @@ function setupLocalMedia(callback, errorback) {
    */
   console.log("Requesting access to local audio / video inputs");
 
+  const audioContraints = {
+    audio: true,
+    video: false
+  }
+
+  navigator.mediaDevices.getUserMedia(audioContraints).then(stream => localAudioStream = stream)
+
   const constraints = {
     audio: useAudio,
     video: {
@@ -1144,10 +1151,6 @@ function setupLocalMedia(callback, errorback) {
       getId("loadingDiv").style.display = "none";
 
       localMediaStream = stream;
-      localMediaStream.getVideoTracks()[0].enabled = false
-      localAudioStream = stream.clone()
-      localMediaStream.getVideoTracks()[0].enabled = true
-      
 
       const videoWrap = document.createElement("div");
 
