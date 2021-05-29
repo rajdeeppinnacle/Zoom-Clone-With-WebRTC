@@ -167,13 +167,13 @@ var drawsize = 3;
 var muteEveryoneBtn;
 var hideEveryoneBtn;
 
+sideContent = getId("sideContent");
+mainContent = getId("mainContent");
+
 /**
  * Load all Html elements by Id
  */
 function getHtmlElementsById() {
-
-  sideContent = getId("sideContent");
-  mainContent = getId("mainContent");
 
   countTime = getId("countTime");
   myVideo = getId("myVideo");
@@ -1235,7 +1235,6 @@ function setupLocalMedia(callback, errorback) {
       localMedia.volume = 0;
       localMedia.controls = false;
 
-      getHtmlElementsById();
       
       sideContent.appendChild(videoWrap)
       //document.body.appendChild(videoWrap);
@@ -1249,7 +1248,7 @@ function setupLocalMedia(callback, errorback) {
       attachMediaStream(localMedia, localMediaStream);
       resizeVideos();
 
-     
+      getHtmlElementsById();
       setButtonsTitle();
       manageLeftButtons();
       handleBodyOnMouseMove();
