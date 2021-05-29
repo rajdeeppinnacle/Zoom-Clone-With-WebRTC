@@ -810,7 +810,7 @@ function initPeer() {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
     } else {
-      localAudioStream.getTracks().forEach(function (track) {
+      localAudioStream.getAudioTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track);
       });
     }
