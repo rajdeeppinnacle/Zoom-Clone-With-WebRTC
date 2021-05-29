@@ -80,6 +80,9 @@ var chatInputEmoji = {
   ":+1:": "\uD83D\uDC4D",
 }; // https://github.com/wooorm/gemoji/blob/main/support.md
 
+let sideContent;
+let mainContent;
+
 var countTime;
 // init audio-video
 var initAudioBtn;
@@ -168,6 +171,10 @@ var hideEveryoneBtn;
  * Load all Html elements by Id
  */
 function getHtmlElementsById() {
+
+  sideContent = getId("sideContent");
+  mainContent = getId("mainContent");
+
   countTime = getId("countTime");
   myVideo = getId("myVideo");
   // left buttons
@@ -729,11 +736,9 @@ function initPeer() {
         peerMediaElements[peer_id] = remoteMedia;
 
         if (config.role == "a") {
-          let mainContent = document.getElementById("mainContent")
           mainContent.appendChild(videoWrap)
         }
         else {
-          let sideContent = document.getElementById("sideContent")
           sideContent.appendChild(videoWrap);
         }
         // attachMediaStream is a part of the adapter.js library
@@ -969,7 +974,15 @@ function initPeer() {
     var peer_id = config.peer_id;
 
     if (peer_id in peerMediaElements) {
-      document.body.removeChild(peerMediaElements[peer_id].parentNode);
+      
+      if(sideContent.contains(peerMediaElements[peer_id].parentNode)){
+        sideContent.removeChild(peerMediaElements[peer_id].parentNode)
+      }
+
+      if(mainContent.contains(peerMediaElements[peer_id].parentNode)){
+        mainContent.removeChild(peerMediaElements[peer_id].parentNode)
+      }
+
       resizeVideos();
     }
     if (peer_id in peerConnections) {
@@ -1222,7 +1235,7 @@ function setupLocalMedia(callback, errorback) {
       localMedia.volume = 0;
       localMedia.controls = false;
 
-      let sideContent = document.getElementById("sideContent")
+      
       sideContent.appendChild(videoWrap)
       //document.body.appendChild(videoWrap);
 
