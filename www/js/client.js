@@ -804,7 +804,7 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addStream
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
-    if (config.role == "a") {
+    if (config.role == "s") {
       localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
