@@ -804,16 +804,16 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addStream
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
-    localMediaStream.getTracks().forEach(function (track) {
-      if (config.role == "a") {
-        console.log("Iam called 'A'")
+
+    if (config.role == "a") {
+      localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
-      }
-      else {
-        console.log("I am called 'B'")
+      });
+    } else {
+      localAudioStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localAudioStream);
-      }
-    });
+      });
+    }
 
     /**
      * Only one side of the peer connection should create the
