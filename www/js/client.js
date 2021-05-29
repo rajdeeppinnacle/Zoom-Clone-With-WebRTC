@@ -667,6 +667,7 @@ function initPeer() {
      */
     let ontrackCount = 0;
     peerConnections[peer_id].ontrack = function (event) {
+      console.log("On Track Called")
       ontrackCount++;
       if (ontrackCount === 2) {
         console.log("ontrack", event);
