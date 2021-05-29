@@ -804,16 +804,16 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addStream
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
-
+    if (config.role == "a") {
       localMediaStream.getTracks().forEach(function (track) {
-
-        if(config.role == "s"){
-          localMediaStream.getVideoTracks()[0].enabled = false
-        }
-
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
-    
+    }
+    else{
+      localAudioStream.getTracks().forEach(function (track) {
+        peerConnections[peer_id].addTrack(track, localAudioStream);
+      });
+    }
     /**
      * Only one side of the peer connection should create the
      * offer, the signaling server picks one to be the offerer.
