@@ -1235,6 +1235,7 @@ function setupLocalMedia(callback, errorback) {
       localMedia.volume = 0;
       localMedia.controls = false;
 
+      getHtmlElementsById();
       
       sideContent.appendChild(videoWrap)
       //document.body.appendChild(videoWrap);
@@ -1248,7 +1249,7 @@ function setupLocalMedia(callback, errorback) {
       attachMediaStream(localMedia, localMediaStream);
       resizeVideos();
 
-      getHtmlElementsById();
+     
       setButtonsTitle();
       manageLeftButtons();
       handleBodyOnMouseMove();
