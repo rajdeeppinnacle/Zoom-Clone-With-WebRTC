@@ -249,7 +249,7 @@ io.sockets.on("connect", (socket) => {
         peer_id: id,
         peers: peers[channel],
         role:peers[channel][id].role,
-        isScreen,
+        isScreen:peers[channel][id].isScreen,
         should_create_offer: true,
         iceServers: iceServers,
       });
