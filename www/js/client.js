@@ -813,6 +813,7 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
     if ((role == "a" && config.role == "s") || (role == "s" && config.role == "a")) {
+      if(role=="a")
       localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
@@ -2270,12 +2271,6 @@ function refreshMyStreamToPeers(stream) {
   if (thereIsPeerConnections()) {
     // refresh my video stream
     for (var peer_id in peerConnections) {
-
-     stream.getTracks().forEach(track=>{
-      peerConnections[peer_id].addTrack(track,stream)
-     })
-
-      continue;
       // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/getSenders
       var sender = peerConnections[peer_id]
         .getSenders()
