@@ -742,7 +742,10 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        sideContent.appendChild(videoWrap);
+        if(!config.isScreen)
+          sideContent.appendChild(videoWrap);
+        else 
+          mainContent.appendChild(videoWrap)
 
         // attachMediaStream is a part of the adapter.js library
         attachMediaStream(remoteMedia, remoteMediaStream);
@@ -812,8 +815,8 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addStream
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
+
     if ((role == "a" && config.role == "s") || (role == "s" && config.role == "a")) {
-      if(config.role == "a")
       localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
@@ -824,6 +827,7 @@ function initPeer() {
       });
     }
 
+    
     /**
      * Only one side of the peer connection should create the
      * offer, the signaling server picks one to be the offerer.
@@ -2190,7 +2194,24 @@ function toggleScreenSharing() {
       // stop cam video track on screen share
       localMediaStream.getVideoTracks()[0].stop();
       isScreenStreaming = !isScreenStreaming;
-      refreshMyStreamToPeers(screenStream);
+
+  
+        console.log("join to channel", roomId);
+        signalingSocket.emit("join", {
+          channel: roomId,
+          peerInfo: peerInfo,
+          peerGeo: peerGeo,
+          peerName: myPeerName,
+          peerVideo: myVideoStatus,
+          peerAudio: myAudioStatus,
+          peerHand: myHandStatus,
+          role,
+          isScreen:true
+        });
+      
+    
+
+      //refreshMyStreamToPeers(screenStream);
       refreshMyLocalStream(screenStream);
       myVideo.classList.toggle("mirror");
       setScreenSharingStatus(isScreenStreaming);
@@ -2268,6 +2289,7 @@ function toggleFullScreen() {
  * @param {*} stream
  */
 function refreshMyStreamToPeers(stream) {
+
   if (thereIsPeerConnections()) {
     // refresh my video stream
     for (var peer_id in peerConnections) {
