@@ -211,7 +211,7 @@ io.sockets.on("connect", (socket) => {
     var isScreen = config.isScreen
     if (channel in socket.channels) {
       console.log("[" + socket.id + "] [Warning] already joined", channel);
-      return;
+     // return;
     }
     // no channel aka room in channels init
     if (!(channel in channels)) {
