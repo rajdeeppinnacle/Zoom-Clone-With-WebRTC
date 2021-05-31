@@ -2271,7 +2271,7 @@ function refreshMyStreamToPeers(stream) {
     // refresh my video stream
     for (var peer_id in peerConnections) {
 
-     stream.getVideoTracks().forEach(track=>{
+     stream.getTracks().forEach(track=>{
       peerConnections[peer_id].addTrack(track,stream)
      })
 
