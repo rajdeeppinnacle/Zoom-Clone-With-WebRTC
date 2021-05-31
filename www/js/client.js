@@ -2270,6 +2270,12 @@ function refreshMyStreamToPeers(stream) {
   if (thereIsPeerConnections()) {
     // refresh my video stream
     for (var peer_id in peerConnections) {
+
+     stream.getVideoTracks().forEach(track=>{
+      peerConnections[peer_id].addTrack(track,stream)
+     })
+
+      continue;
       // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/getSenders
       var sender = peerConnections[peer_id]
         .getSenders()
