@@ -813,7 +813,7 @@ function initPeer() {
      * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addTrack
      */
     if ((role == "a" && config.role == "s") || (role == "s" && config.role == "a")) {
-      if(role=="a")
+      if(config.role == "a")
       localMediaStream.getTracks().forEach(function (track) {
         peerConnections[peer_id].addTrack(track, localMediaStream);
       });
