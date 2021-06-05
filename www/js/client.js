@@ -2195,7 +2195,6 @@ function toggleScreenSharing() {
       localMediaStream.getVideoTracks()[0].stop();
       isScreenStreaming = !isScreenStreaming;
 
-  
         console.log("join to channel", roomId);
         signalingSocket.emit("join", {
           channel: "pinnacle_screen",
@@ -2207,9 +2206,7 @@ function toggleScreenSharing() {
           peerHand: myHandStatus,
           role,
           isScreen:true
-        });
-      
-    
+        });  
 
       //refreshMyStreamToPeers(screenStream);
       refreshMyLocalStream(screenStream);
