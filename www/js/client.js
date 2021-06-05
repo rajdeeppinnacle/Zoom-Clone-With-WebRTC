@@ -629,7 +629,7 @@ function initPeer() {
     if (peer_id in peerConnections) {
       // This could happen if the user joins multiple channels where the other peer is also in.
       console.log("Already connected to peer", peer_id);
-      return;
+     // return;
     }
 
     if (config.iceServers) iceServers = config.iceServers;
