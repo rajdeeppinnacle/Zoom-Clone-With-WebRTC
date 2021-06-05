@@ -257,19 +257,6 @@ io.sockets.on("connect", (socket) => {
       console.log("[" + socket.id + "] emit add Peer [" + id + "]");
     }
 
-    if(config.isScreen){
-      for (var id in channels["pinnacle"]) {
-        socket.emit("addPeer", {
-          peer_id: id,
-          peers: peers["pinnacle"],
-          role:peers["pinnacle"][id].role,
-          isScreen:peers[channel][id].isScreen,
-          should_create_offer: true,
-          iceServers: iceServers,
-        });
-      }
-    }
-
     channels[channel][socket.id] = socket;
     socket.channels[channel] = channel;
   });
