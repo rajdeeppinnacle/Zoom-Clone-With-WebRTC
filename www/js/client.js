@@ -2198,7 +2198,7 @@ function toggleScreenSharing() {
   
         console.log("join to channel", roomId);
         signalingSocket.emit("join", {
-          channel: roomId,
+          channel: "pinnacle_screen",
           peerInfo: peerInfo,
           peerGeo: peerGeo,
           peerName: myPeerName,
