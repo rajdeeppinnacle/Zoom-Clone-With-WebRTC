@@ -234,27 +234,54 @@ io.sockets.on("connect", (socket) => {
     };
     console.log("connected peers grp by roomId", peers);
 
-    for (var id in channels[channel]) {
-      // offer false
-      channels[channel][id].emit("addPeer", {
-        peer_id: socket.id,
-        peers: peers[channel],
-        role,
-        should_create_offer: false,
-        iceServers: iceServers,
-        isScreen
-      });
-      // offer true
-      socket.emit("addPeer", {
-        peer_id: id,
-        peers: peers[channel],
-        role: peers[channel][id].role,
-        isScreen: peers[channel][id].isScreen,
-        should_create_offer: true,
-        iceServers: iceServers,
-      });
+    if (!config.isScreen) {
 
-      console.log("[" + socket.id + "] emit add Peer [" + id + "]");
+      for (var id in channels[channel]) {
+        // offer false
+        channels[channel][id].emit("addPeer", {
+          peer_id: socket.id,
+          peers: peers[channel],
+          role,
+          should_create_offer: false,
+          iceServers: iceServers,
+          isScreen
+        });
+        // offer true
+        socket.emit("addPeer", {
+          peer_id: id,
+          peers: peers[channel],
+          role: peers[channel][id].role,
+          isScreen: peers[channel][id].isScreen,
+          should_create_offer: true,
+          iceServers: iceServers,
+        });
+
+        console.log("[" + socket.id + "] emit add Peer [" + id + "]");
+      }
+    }
+    else {
+      for (var id in channels["pinnacle"]) {
+        // offer false
+        channels[channel][id].emit("addPeer", {
+          peer_id: socket.id,
+          peers: peers["pinnacle"],
+          role,
+          should_create_offer: false,
+          iceServers: iceServers,
+          isScreen
+        });
+        // offer true
+        socket.emit("addPeer", {
+          peer_id: id,
+          peers: peers["pinnacle"],
+          role: peers["pinnacle"][id].role,
+          isScreen: peers["pinnacle"][id].isScreen,
+          should_create_offer: true,
+          iceServers: iceServers,
+        });
+
+        console.log("[" + socket.id + "] emit add Peer [" + id + "]");
+      }
     }
 
     channels[channel][socket.id] = socket;
