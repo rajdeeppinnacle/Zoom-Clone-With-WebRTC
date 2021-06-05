@@ -233,35 +233,12 @@ io.sockets.on("connect", (socket) => {
       isScreen
     };
     console.log("connected peers grp by roomId", peers);
-    if (!config.isScreen)
-      for (var id in channels[channel]) {
-        // offer false
-        channels[channel][id].emit("addPeer", {
-          peer_id: socket.id,
-          peers: peers[channel],
-          role,
-          should_create_offer: false,
-          iceServers: iceServers,
-          isScreen
-        });
-        // offer true
-        socket.emit("addPeer", {
-          peer_id: id,
-          peers: peers[channel],
-          role: peers[channel][id].role,
-          isScreen: peers[channel][id].isScreen,
-          should_create_offer: true,
-          iceServers: iceServers,
-        });
 
-        console.log("[" + socket.id + "] emit add Peer [" + id + "]");
-      }
-    else
-    for (var id in channels["pinnacle"]) {
+    for (var id in channels[channel]) {
       // offer false
       channels[channel][id].emit("addPeer", {
         peer_id: socket.id,
-        peers: peers["pinnacle"],
+        peers: peers[channel],
         role,
         should_create_offer: false,
         iceServers: iceServers,
@@ -270,19 +247,18 @@ io.sockets.on("connect", (socket) => {
       // offer true
       socket.emit("addPeer", {
         peer_id: id,
-        peers: peers["pinnacle"],
-        role:peers["pinnacle"][id].role,
-        isScreen:peers["pinnacle"][id].isScreen,
+        peers: peers[channel],
+        role: peers[channel][id].role,
+        isScreen: peers[channel][id].isScreen,
         should_create_offer: true,
         iceServers: iceServers,
       });
 
       console.log("[" + socket.id + "] emit add Peer [" + id + "]");
-    }
 
-    channels[channel][socket.id] = socket;
-    socket.channels[channel] = channel;
-  });
+      channels[channel][socket.id] = socket;
+      socket.channels[channel] = channel;
+    });
 
   /**
    * Remove peers from channel aka room
