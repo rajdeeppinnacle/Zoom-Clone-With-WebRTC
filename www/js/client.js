@@ -471,7 +471,7 @@ function initPeer() {
   // peer ready for WebRTC! :)
   console.log("Connecting to signaling server");
   signalingSocket = io(signalingServer);
-
+  console.log("signalingSocker",signalingSocket);
   /**
    * Once the user has given us access to their
    * microphone/camcorder, join the channel
@@ -629,7 +629,7 @@ function initPeer() {
     if (peer_id in peerConnections) {
       // This could happen if the user joins multiple channels where the other peer is also in.
       console.log("Already connected to peer", peer_id);
-     // return;
+      return;
     }
 
     if (config.iceServers) iceServers = config.iceServers;
