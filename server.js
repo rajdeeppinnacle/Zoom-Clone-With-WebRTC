@@ -262,7 +262,7 @@ io.sockets.on("connect", (socket) => {
     else {
       for (var id in channels["pinnacle"]) {
         // offer false
-        channels[channel][id].emit("addPeer", {
+        channels["pinnacle"][id].emit("addPeer", {
           peer_id: socket.id,
           peers: peers["pinnacle"],
           role,
