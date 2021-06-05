@@ -255,10 +255,11 @@ io.sockets.on("connect", (socket) => {
       });
 
       console.log("[" + socket.id + "] emit add Peer [" + id + "]");
+    }
 
-      channels[channel][socket.id] = socket;
-      socket.channels[channel] = channel;
-    });
+    channels[channel][socket.id] = socket;
+    socket.channels[channel] = channel;
+  });
 
   /**
    * Remove peers from channel aka room
