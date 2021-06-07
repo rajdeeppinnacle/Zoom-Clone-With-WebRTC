@@ -61,9 +61,11 @@ var localAudioStream;
 var remoteMediaStream; // peers microphone / webcam
 var remoteMediaControls = false; // enable - disable peers video player controls (default false)
 var peerConnections = {}; // keep track of our peer connections, indexed by peer_id == socket.io id
+var screenConnections = {};
 var dataChannels = {}; // keep track of our peer data channels
 var useRTCDataChannel = true; // https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel
 var peerMediaElements = {}; // keep track of our peer <video> tags, indexed by peer_id
+var screenMediaElements = {};
 var chatMessages = []; // collect chat messages to save it later if want
 var iceServers = [{ urls: "stun:stun.l.google.com:19302" }]; // backup iceServers
 
@@ -471,7 +473,6 @@ function initPeer() {
   // peer ready for WebRTC! :)
   console.log("Connecting to signaling server");
   signalingSocket = io(signalingServer);
-  console.log("signalingSocker",signalingSocket);
   /**
    * Once the user has given us access to their
    * microphone/camcorder, join the channel
@@ -624,7 +625,6 @@ function initPeer() {
 
     var peer_id = config.peer_id;
     var peers = config.peers;
-    console.log("You are going to connect to Role: " + config.role)
 
     if (peer_id in peerConnections) {
       // This could happen if the user joins multiple channels where the other peer is also in.
@@ -742,9 +742,9 @@ function initPeer() {
         remoteMedia.controls = remoteMediaControls;
         peerMediaElements[peer_id] = remoteMedia;
 
-        if(!config.isScreen)
+        if (!config.isScreen)
           sideContent.appendChild(videoWrap);
-        else 
+        else
           mainContent.appendChild(videoWrap)
 
         // attachMediaStream is a part of the adapter.js library
@@ -827,7 +827,7 @@ function initPeer() {
       });
     }
 
-    
+
     /**
      * Only one side of the peer connection should create the
      * offer, the signaling server picks one to be the offerer.
@@ -965,6 +965,82 @@ function initPeer() {
   signalingSocket.on("onhideEveryone", function (config) {
     setMyVideoOff(config.peer_name);
   });
+
+  /**
+   * The offerer will send a number of ICE Candidate blobs to the answerer so they
+   * can begin trying to find the best path to one another on the net.
+   */
+  signalingSocket.on("iceCandidate", function (config) {
+    var peer_id = config.peer_id;
+    var ice_candidate = config.ice_candidate;
+    // https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate
+    peerConnections[peer_id].addIceCandidate(
+      new RTCIceCandidate(ice_candidate)
+    );
+  });
+
+  // refresh peers name
+  signalingSocket.on("onCName", function (config) {
+    appendPeerName(config.peer_id, config.peer_name);
+  });
+
+  // refresh peers video - audio - hand icon status and title
+  signalingSocket.on("onpeerStatus", function (config) {
+    var peer_id = config.peer_id;
+    var element = config.element;
+    var status = config.status;
+
+    switch (element) {
+      case "video":
+        setPeerVideoStatus(peer_id, status);
+        break;
+      case "audio":
+        setPeerAudioStatus(peer_id, status);
+        break;
+      case "hand":
+        setPeerHandStatus(peer_id, status);
+        break;
+    }
+  });
+
+  // set my Audio off
+  signalingSocket.on("onmuteEveryone", function (config) {
+    setMyAudioOff(config.peer_name);
+  });
+  // set my Video off
+  signalingSocket.on("onhideEveryone", function (config) {
+    setMyVideoOff(config.peer_name);
+  });
+
+  // On join Screen
+  signalingSocket.on("onJoinScreen", function (config) {
+
+    var peer_id = config.peer_id;
+
+    if (config.iceServers) iceServers = config.iceServers;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
+    peerConnection = new RTCPeerConnection({ iceServers: iceServers });
+
+    // collect peer connections
+    peerConnections[peer_id] = peerConnection;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onicecandidate
+    peerConnections[peer_id].onicecandidate = function (event) {
+      if (event.candidate) {
+        signalingSocket.emit("relayICE", {
+          peer_id: peer_id,
+          ice_candidate: {
+            sdpMLineIndex: event.candidate.sdpMLineIndex,
+            candidate: event.candidate.candidate,
+            address: event.candidate.address,
+          },
+        });
+      }
+    };
+
+  });
+
 
   /**
    * When a user leaves a channel (or is disconnected from the
@@ -2195,18 +2271,11 @@ function toggleScreenSharing() {
       localMediaStream.getVideoTracks()[0].stop();
       isScreenStreaming = !isScreenStreaming;
 
-        console.log("join to channel", roomId);
-        signalingSocket.emit("join", {
-          channel: "pinnacle_screen",
-          peerInfo: peerInfo,
-          peerGeo: peerGeo,
-          peerName: myPeerName,
-          peerVideo: myVideoStatus,
-          peerAudio: myAudioStatus,
-          peerHand: myHandStatus,
-          role,
-          isScreen:true
-        });  
+      console.log("join to channel", roomId);
+      signalingSocket.emit("joinScreen", {
+        peerConnections: peerConnections,
+        peer_name: myPeerName,
+      });
 
       //refreshMyStreamToPeers(screenStream);
       refreshMyLocalStream(screenStream);
@@ -3163,6 +3232,7 @@ function setWhiteboardBgandColors() {
     setColor("#000000");
   }
 }
+
 
 /**
  * Mute everyone except yourself

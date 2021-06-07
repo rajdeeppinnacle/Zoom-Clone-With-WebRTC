@@ -263,6 +263,7 @@ io.sockets.on("connect", (socket) => {
     socket.channels[channel] = channel;
   });
 
+
   /**
    * Remove peers from channel aka room
    * @param {*} channel
@@ -533,4 +534,23 @@ io.sockets.on("connect", (socket) => {
       }
     }
   });
+
+  socket.on("joinScreen", (config) => {
+    let peerConnections = config.peerConnections;
+    let peer_name = config.peer_name;
+
+    // socket.id aka peer that send this status
+    if (Object.keys(peerConnections).length != 0) {
+      for (var peer_id in peerConnections) {
+        if (sockets[peer_id]) {
+          sockets[peer_id].emit("onJoinScreen", {
+            peer_name: peer_name,
+            iceServers,
+            peer_id
+          });
+        }
+      }
+    }
+  });
+
 }); // end [sockets.on-connect]
