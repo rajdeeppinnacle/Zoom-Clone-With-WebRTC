@@ -559,36 +559,6 @@ function initPeer() {
   }
 
   /**
-   * welcome message
-   */
-  function welcomeUser() {
-    const myRoomUrl = window.location.href;
-    playSound("newMessage");
-    copyRoomURL();
-    Swal.fire({
-      background: swalBackground,
-      position: "center",
-      title: "<strong>Welcome " + myPeerName + "</strong>",
-      imageAlt: "mirotalk-welcome",
-      imageUrl: welcomeImg,
-      html:
-        `
-      <br/> 
-      <p style="color:white;"> Share this meeting invite others to join.</p>
-      <p style="color:rgb(8, 189, 89);">` +
-        myRoomUrl +
-        `</p>`,
-      confirmButtonText: `Copy meeting URL`,
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-    });
-  }
-
-  /**
    * Tear down all of our peer connections
    * and remove all the media divs when we disconnect
    */
@@ -1014,31 +984,7 @@ function initPeer() {
 
   // On join Screen
   signalingSocket.on("onJoinScreen", function (config) {
-
-    var peer_id = config.peer_id;
-
-    if (config.iceServers) iceServers = config.iceServers;
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
-    peerConnection = new RTCPeerConnection({ iceServers: iceServers });
-
-    // collect peer connections
-    peerConnections[peer_id] = peerConnection;
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onicecandidate
-    peerConnections[peer_id].onicecandidate = function (event) {
-      if (event.candidate) {
-        signalingSocket.emit("relayICE", {
-          peer_id: peer_id,
-          ice_candidate: {
-            sdpMLineIndex: event.candidate.sdpMLineIndex,
-            candidate: event.candidate.candidate,
-            address: event.candidate.address,
-          },
-        });
-      }
-    };
-
+    alert("Admin is Sharing Screen")
   });
 
 
