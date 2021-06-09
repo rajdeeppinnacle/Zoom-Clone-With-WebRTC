@@ -618,6 +618,7 @@ function initPeer() {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onicecandidate
     peerConnections[peer_id].onicecandidate = function (event) {
+      console.log("onicecandidate event",event);
       if (event.candidate) {
         signalingSocket.emit("relayICE", {
           peer_id: peer_id,
@@ -984,7 +985,7 @@ function initPeer() {
 
   // On join Screen
   signalingSocket.on("onJoinScreen", function (config) {
-    alert("Admin is Sharing Screen")
+    
   });
 
 
